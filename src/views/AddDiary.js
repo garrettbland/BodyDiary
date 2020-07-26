@@ -9,7 +9,7 @@ import {
     Keyboard,
     Button,
 } from 'react-native'
-import { ADD_DIARY_ITEM } from '../redux/constants'
+import { ADD_ENTRY } from '../redux/constants'
 import { useDispatch } from 'react-redux'
 
 const AddDiary = ({ navigation }) => {
@@ -28,8 +28,9 @@ const AddDiary = ({ navigation }) => {
          * Dispatches the redux action to add item to store
          */
         dispatch({
-            type: ADD_DIARY_ITEM,
+            type: ADD_ENTRY,
             payload: {
+                type: 'diary',
                 value: value,
             },
         })
@@ -43,25 +44,25 @@ const AddDiary = ({ navigation }) => {
     return (
         <KeyboardAvoidingView
             style={tailwind('flex flex-col h-full')}
-            behavior="padding">
+            behavior='padding'>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={tailwind('flex-grow')}>
                     <Text>Add Diary Entry</Text>
                     <TextInput
                         style={tailwind('border')}
                         value={value}
-                        placeholder="Text Entry"
-                        onChangeText={(text) => setValue(text)}
+                        placeholder='Text Entry'
+                        onChangeText={text => setValue(text)}
                         autoFocus={true}
-                        clearButtonMode="always"
+                        clearButtonMode='always'
                         enablesReturnKeyAutomatically={true}
-                        returnKeyType="done"
+                        returnKeyType='done'
                         onSubmitEditing={() => add_item()}
                     />
                 </View>
             </TouchableWithoutFeedback>
             <View style={tailwind('h-24')}>
-                <Button title="Add Item" onPress={() => add_item()} />
+                <Button title='Add Item' onPress={() => add_item()} />
             </View>
         </KeyboardAvoidingView>
     )

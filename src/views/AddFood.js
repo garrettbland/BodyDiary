@@ -9,7 +9,7 @@ import {
     Keyboard,
     Button,
 } from 'react-native'
-import { ADD_FOOD_ITEM } from '../redux/constants'
+import { ADD_ENTRY } from '../redux/constants'
 import { useDispatch } from 'react-redux'
 
 const AddFood = ({ navigation }) => {
@@ -28,8 +28,9 @@ const AddFood = ({ navigation }) => {
          * Dispatches the redux action to add item to store
          */
         dispatch({
-            type: ADD_FOOD_ITEM,
+            type: ADD_ENTRY,
             payload: {
+                type: 'food',
                 value: value,
             },
         })
@@ -43,25 +44,25 @@ const AddFood = ({ navigation }) => {
     return (
         <KeyboardAvoidingView
             style={tailwind('flex flex-col h-full')}
-            behavior="padding">
+            behavior='padding'>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={tailwind('flex-grow')}>
                     <Text>Add Food Entry</Text>
                     <TextInput
                         style={tailwind('border')}
                         value={value}
-                        placeholder="Text Entry"
-                        onChangeText={(text) => setValue(text)}
+                        placeholder='Text Entry'
+                        onChangeText={text => setValue(text)}
                         autoFocus={true}
-                        clearButtonMode="always"
+                        clearButtonMode='always'
                         enablesReturnKeyAutomatically={true}
-                        returnKeyType="done"
+                        returnKeyType='done'
                         onSubmitEditing={() => add_item()}
                     />
                 </View>
             </TouchableWithoutFeedback>
             <View style={tailwind('h-24')}>
-                <Button title="Add Item" onPress={() => add_item()} />
+                <Button title='Add Item' onPress={() => add_item()} />
             </View>
         </KeyboardAvoidingView>
     )

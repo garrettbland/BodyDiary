@@ -1,11 +1,11 @@
-import { ADD_FOOD_ITEM, ADD_DIARY_ITEM } from './constants'
+import { ADD_ENTRY } from './constants'
 
 /**
  * Define initial state
  */
 const initialState = {
-    food_items: [],
-    diary_items: [],
+    user_id: '12345', // we will generate/retreive the uuid later
+    entries: [], // our diary and food entries
 }
 
 /**
@@ -14,32 +14,19 @@ const initialState = {
  */
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
-        case ADD_FOOD_ITEM: {
+        case ADD_ENTRY: {
             /**
-             * Set id automatically and get value from payload
+             * Add item to entires
              */
             const new_item = {
-                id: Date.now().toString(),
+                user_id: state.user_id,
+                type: action.payload.type,
                 value: action.payload.value,
             }
 
             return {
                 ...state,
-                food_items: [...state.food_items, new_item],
-            }
-        }
-        case ADD_DIARY_ITEM: {
-            /**
-             * Set id automatically and get value from payload
-             */
-            const new_item = {
-                id: Date.now().toString(),
-                value: action.payload.value,
-            }
-
-            return {
-                ...state,
-                diary_items: [...state.diary_items, new_item],
+                entries: [...state.entries, new_item],
             }
         }
         default: {

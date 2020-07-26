@@ -7,32 +7,23 @@ const Home = ({ navigation }) => {
     /**
      *  React-redux hooks
      */
-    const food_items = useSelector((state) => state.food_items)
-    const diary_items = useSelector((state) => state.diary_items)
+    const entries = useSelector(state => state.entries)
 
     return (
         <View>
             <Text>Home View</Text>
             <View>
-                <Text>Food Items</Text>
+                <Text>All Entries</Text>
                 <FlatList
-                    data={food_items}
-                    keyExtractor={(item) => item.id}
+                    data={entries}
+                    keyExtractor={item => item.id}
                     renderItem={({ item }) => (
                         <Text style={tailwind('text-blue-500')}>
-                            {item.value}
-                        </Text>
-                    )}
-                />
-            </View>
-            <View>
-                <Text>Diary Items</Text>
-                <FlatList
-                    data={diary_items}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => (
-                        <Text style={tailwind('text-red-500')}>
-                            {item.value}
+                            {item.value} (
+                            {item.type === 'food'
+                                ? 'Food Item'
+                                : 'Diary Item'}
+                            )
                         </Text>
                     )}
                 />
@@ -40,7 +31,7 @@ const Home = ({ navigation }) => {
             <View>
                 <Button
                     onPress={() => navigation.navigate('Choose')}
-                    title="Open Modal"
+                    title='Open Modal'
                 />
             </View>
         </View>
