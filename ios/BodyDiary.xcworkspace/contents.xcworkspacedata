@@ -2,9 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:BodyDiary.xcodeproj">
+      location = "group:/Users/garrettbland/websites/BodyDiary/ios/BodyDiary.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:BodyDiary.xcodeproj">
    </FileRef>
 </Workspace>
