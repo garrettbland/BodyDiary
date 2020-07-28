@@ -29,6 +29,7 @@ const rootReducer = (state = initialState, action) => {
                 id: action.payload.id,
                 type: action.payload.type,
                 value: action.payload.value,
+                date: action.payload.date,
             }
 
             return {

@@ -12,6 +12,7 @@ import {
 import { ADD_ENTRY } from '../redux/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import firestore from '@react-native-firebase/firestore'
+import moment from 'moment-timezone'
 
 const AddDiary = ({ navigation }) => {
     /**
@@ -24,6 +25,9 @@ const AddDiary = ({ navigation }) => {
      * Use react hooks to keep track of text value state
      */
     const [value, setValue] = useState('')
+    const [selectedDate, setSelectedDate] = useState(
+        moment().utc().valueOf()
+    )
 
     /**
      * reference our entires collection
@@ -36,6 +40,7 @@ const AddDiary = ({ navigation }) => {
                 user_id: user_id,
                 type: 'diary',
                 value: value,
+                date: selectedDate,
             })
             /**
              * Returns document reference object, which contains the new id
@@ -60,8 +65,10 @@ const AddDiary = ({ navigation }) => {
                 type: ADD_ENTRY,
                 payload: {
                     id: docRef.id,
+                    user_id: user_id,
                     type: 'diary',
                     value: value,
+                    date: selectedDate,
                 },
             })
 

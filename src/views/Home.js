@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import tailwind from 'tailwind-rn'
 import firestore from '@react-native-firebase/firestore'
 import { SET_ENTRIES, SET_DATA_LOADED } from '../redux/constants'
+import moment from 'moment-timezone'
+import * as RNLocalize from 'react-native-localize'
 
 const Home = ({ navigation }) => {
     /**
@@ -25,33 +27,37 @@ const Home = ({ navigation }) => {
          * another network request. Entires are in redux store
          */
         if (!hasDataLoaded) {
-            entriesRef.get().then((dataSnapshot) => {
-                let items = []
-                dataSnapshot.forEach((doc) => {
-                    items.push({
-                        ...doc.data(),
-                        id: doc.id,
+            entriesRef
+                .where('user_id', '==', user_id)
+                .where('date', '>=', moment().startOf('day').unix())
+                .get()
+                .then((dataSnapshot) => {
+                    let items = []
+                    dataSnapshot.forEach((doc) => {
+                        items.push({
+                            ...doc.data(),
+                            id: doc.id,
+                        })
+                    })
+
+                    /**
+                     * Update our entires with results from firebase
+                     */
+                    dispatch({
+                        type: SET_ENTRIES,
+                        payload: {
+                            entries: items,
+                        },
+                    })
+
+                    /**
+                     * Set hasDataLoaded flag to true in redux to
+                     * limit network requests
+                     */
+                    dispatch({
+                        type: SET_DATA_LOADED,
                     })
                 })
-
-                /**
-                 * Update our entires with results from firebase
-                 */
-                dispatch({
-                    type: SET_ENTRIES,
-                    payload: {
-                        entries: items,
-                    },
-                })
-
-                /**
-                 * Set hasDataLoaded flag to true in redux to
-                 * limit network requests
-                 */
-                dispatch({
-                    type: SET_DATA_LOADED,
-                })
-            })
         }
     }, [])
 
@@ -70,6 +76,10 @@ const Home = ({ navigation }) => {
                                 {item.type === 'food'
                                     ? 'Food Item'
                                     : 'Diary Item'}
+                                ) (
+                                {moment(item.date)
+                                    .tz(RNLocalize.getTimeZone())
+                                    .format('LLLL')}
                                 )
                             </Text>
                         )}
@@ -78,6 +88,16 @@ const Home = ({ navigation }) => {
             </View>
             <View>
                 <Text>User Id: {JSON.stringify(user_id)}</Text>
+            </View>
+            <View>
+                <Text>
+                    Start unix date:{' '}
+                    {JSON.stringify(moment().startOf('day').unix())}
+                </Text>
+                <Text>
+                    End of unix date:{' '}
+                    {JSON.stringify(moment().endOf('day').unix())}
+                </Text>
             </View>
             <View>
                 <Button
