@@ -1,14 +1,4 @@
-import { v4 as uuidv4 } from 'uuid'
 import AsyncStorage from '@react-native-community/async-storage'
-
-export const generateRandomId = () => {
-    /**
-     * Genereate unique id and return
-     * Need to install react-native-get-random-values and
-     * follow instructions for polyfill to use uuid
-     */
-    return uuidv4()
-}
 
 export const setItem = async ({ key, value }) => {
     try {

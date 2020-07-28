@@ -77,7 +77,7 @@ const Home = ({ navigation }) => {
                 )}
             </View>
             <View>
-                <Text>User Id: {user_id}</Text>
+                <Text>User Id: {JSON.stringify(user_id)}</Text>
             </View>
             <View>
                 <Button
