@@ -25,11 +25,21 @@ const Home = ({ navigation }) => {
         /**
          * If data has already been loaded by firebase, don't send
          * another network request. Entires are in redux store
+         * Moment includes valueOf to get timestamp in millieseconds
          */
         if (!hasDataLoaded) {
             entriesRef
                 .where('user_id', '==', user_id)
-                .where('date', '>=', moment().startOf('day').unix())
+                .where(
+                    'date',
+                    '>=',
+                    moment().utc().startOf('day').valueOf()
+                )
+                .where(
+                    'date',
+                    '<=',
+                    moment().utc().endOf('day').valueOf()
+                )
                 .get()
                 .then((dataSnapshot) => {
                     let items = []
@@ -88,16 +98,6 @@ const Home = ({ navigation }) => {
             </View>
             <View>
                 <Text>User Id: {JSON.stringify(user_id)}</Text>
-            </View>
-            <View>
-                <Text>
-                    Start unix date:{' '}
-                    {JSON.stringify(moment().startOf('day').unix())}
-                </Text>
-                <Text>
-                    End of unix date:{' '}
-                    {JSON.stringify(moment().endOf('day').unix())}
-                </Text>
             </View>
             <View>
                 <Button
