@@ -1,5 +1,11 @@
 import React, { useEffect } from 'react'
-import { View, Text, Button, FlatList } from 'react-native'
+import {
+    View,
+    Text,
+    Button,
+    FlatList,
+    TouchableOpacity,
+} from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import tailwind from 'tailwind-rn'
 import firestore from '@react-native-firebase/firestore'
@@ -81,17 +87,25 @@ const Home = ({ navigation }) => {
                         data={entries}
                         keyExtractor={(item) => item.id}
                         renderItem={({ item }) => (
-                            <Text style={tailwind('text-blue-500')}>
-                                {item.value} (
-                                {item.type === 'food'
-                                    ? 'Food Item'
-                                    : 'Diary Item'}
-                                ) (
-                                {moment(item.date)
-                                    .tz(RNLocalize.getTimeZone())
-                                    .format('LLLL')}
-                                )
-                            </Text>
+                            <TouchableOpacity
+                                onPress={() =>
+                                    navigation.navigate('EditEntry', {
+                                        entry: item,
+                                    })
+                                }>
+                                <Text
+                                    style={tailwind('text-blue-500')}>
+                                    {item.value} (
+                                    {item.type === 'food'
+                                        ? 'Food Item'
+                                        : 'Diary Item'}
+                                    ) (
+                                    {moment(item.date)
+                                        .tz(RNLocalize.getTimeZone())
+                                        .format('LLLL')}
+                                    )
+                                </Text>
+                            </TouchableOpacity>
                         )}
                     />
                 )}

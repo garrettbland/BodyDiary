@@ -10,6 +10,7 @@ import Home from './views/Home'
 import Choose from './views/Choose'
 import AddDiary from './views/AddDiary'
 import AddFood from './views/AddFood'
+import EditEntry from './views/EditEntry'
 
 /**
  * Top level navigation container
@@ -56,6 +57,14 @@ const HomeStack = () => {
                 }}
                 name="AddDiary"
                 component={AddDiary}
+            />
+            <HomeNavigator.Screen
+                options={{
+                    gesturesEnabled: true,
+                    stackPresentation: 'formSheet',
+                }}
+                name="EditEntry"
+                component={EditEntry}
             />
         </HomeNavigator.Navigator>
     )

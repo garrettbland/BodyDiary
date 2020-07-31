@@ -3,6 +3,7 @@ import {
     SET_USER_ID,
     SET_DATA_LOADED,
     SET_ENTRIES,
+    EDIT_ENTRY,
 } from './constants'
 
 /**
@@ -53,6 +54,19 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 entries: action.payload.entries,
+            }
+        }
+        case EDIT_ENTRY: {
+            const updated_entries = state.entries.map((entry) => {
+                if (entry.id === action.payload.entry.id) {
+                    return action.payload.entry
+                } else {
+                    return entry
+                }
+            })
+            return {
+                ...state,
+                entries: updated_entries,
             }
         }
         default: {
