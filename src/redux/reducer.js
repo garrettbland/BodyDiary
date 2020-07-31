@@ -4,6 +4,7 @@ import {
     SET_DATA_LOADED,
     SET_ENTRIES,
     EDIT_ENTRY,
+    REMOVE_ENTRY,
 } from './constants'
 
 /**
@@ -61,6 +62,17 @@ const rootReducer = (state = initialState, action) => {
                 if (entry.id === action.payload.entry.id) {
                     return action.payload.entry
                 } else {
+                    return entry
+                }
+            })
+            return {
+                ...state,
+                entries: updated_entries,
+            }
+        }
+        case REMOVE_ENTRY: {
+            const updated_entries = state.entries.filter((entry) => {
+                if (entry.id !== action.payload.entry.id) {
                     return entry
                 }
             })

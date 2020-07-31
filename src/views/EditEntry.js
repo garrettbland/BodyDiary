@@ -9,7 +9,7 @@ import {
     Keyboard,
     Button,
 } from 'react-native'
-import { EDIT_ENTRY } from '../redux/constants'
+import { EDIT_ENTRY, REMOVE_ENTRY } from '../redux/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import firestore from '@react-native-firebase/firestore'
 import moment from 'moment-timezone'
@@ -52,6 +52,22 @@ const EditEntry = ({ route, navigation }) => {
         }
     }
 
+    const delete_document_in_database = async () => {
+        try {
+            const docId = route.params.entry.id
+            const docRef = await entriesRef.doc(docId).delete()
+
+            /**
+             * Returns document reference object, which contains the new id
+             */
+            return docRef
+        } catch (err) {
+            /**
+             * Handle error
+             */
+        }
+    }
+
     const edit_item = () => {
         /**
          * Edit item in database
@@ -77,6 +93,19 @@ const EditEntry = ({ route, navigation }) => {
         })
     }
 
+    const remove_item = () => {
+        delete_document_in_database().then((docRef) => {
+            dispatch({
+                type: REMOVE_ENTRY,
+                payload: {
+                    entry: route.params.entry,
+                },
+            })
+
+            navigation.pop()
+        })
+    }
+
     return (
         <KeyboardAvoidingView
             style={tailwind('flex flex-col h-full')}
@@ -94,6 +123,10 @@ const EditEntry = ({ route, navigation }) => {
                         enablesReturnKeyAutomatically={true}
                         returnKeyType="done"
                         onSubmitEditing={() => edit_item()}
+                    />
+                    <Button
+                        title="Delete Entry"
+                        onPress={() => remove_item()}
                     />
                 </View>
             </TouchableWithoutFeedback>
