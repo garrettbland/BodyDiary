@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import tailwind from 'tailwind-rn'
 import { getDatesArray } from '../utils/dates'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import * as RNLocalize from 'react-native-localize'
 
 const EntriesMenu = ({ navigation }) => {
@@ -31,7 +31,9 @@ const EntriesMenu = ({ navigation }) => {
                     <TouchableOpacity
                         onPress={() =>
                             navigation.navigate('EntriesDetail', {
-                                date: item,
+                                date: moment(item).tz(
+                                    RNLocalize.getTimeZone()
+                                ),
                             })
                         }>
                         <Text style={tailwind('text-blue-500')}>
