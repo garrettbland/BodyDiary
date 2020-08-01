@@ -115,8 +115,14 @@ const Home = ({ navigation }) => {
             </View>
             <View>
                 <Button
-                    onPress={() => navigation.navigate('Choose')}
                     title="Open Modal"
+                    onPress={() => navigation.navigate('Choose')}
+                />
+            </View>
+            <View>
+                <Button
+                    title="Open Entries Menu"
+                    onPress={() => navigation.navigate('EntriesMenu')}
                 />
             </View>
         </View>

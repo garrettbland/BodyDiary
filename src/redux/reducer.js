@@ -13,7 +13,8 @@ import {
 const initialState = {
     user_id: '', // we will generate/retreive the uuid later
     hasDataLoaded: false,
-    entries: [], // our diary and food entries
+    entries: [], // our current day entries
+    all_entries: [], // all entries
 }
 
 /**

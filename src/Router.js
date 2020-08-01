@@ -11,6 +11,8 @@ import Choose from './views/Choose'
 import AddDiary from './views/AddDiary'
 import AddFood from './views/AddFood'
 import EditEntry from './views/EditEntry'
+import EntriesMenu from './views/EntriesMenu'
+import EntriesDetail from './views/EntriesDetail'
 
 /**
  * Top level navigation container
@@ -24,16 +26,27 @@ const AppRouter = () => {
 }
 
 /**
- * Home stack navigator
- * Using native stack navigator, so we need to call 'enableScreens()'
- * This will use 'UINavigationController' for same performance benefits as native
+ *  Using native stack navigators, so we need to call 'enableScreens()'
  */
 enableScreens()
+
+/**
+ * Home stack navigator
+ * This will use 'UINavigationController' for same performance benefits as native
+ */
 const HomeNavigator = createNativeStackNavigator()
 const HomeStack = () => {
     return (
         <HomeNavigator.Navigator initialRouteName="Home">
             <HomeNavigator.Screen name="Home" component={Home} />
+            <HomeNavigator.Screen
+                options={{
+                    gesturesEnabled: true,
+                    stackPresentation: 'formSheet',
+                }}
+                name="EntriesMenu"
+                component={EntriesStack}
+            />
             <HomeNavigator.Screen
                 options={{
                     gesturesEnabled: true,
@@ -67,6 +80,30 @@ const HomeStack = () => {
                 component={EditEntry}
             />
         </HomeNavigator.Navigator>
+    )
+}
+
+/**
+ * Entries Menu Navigator
+ * This will use 'UINavigationController' for same performance benefits as native
+ */
+const EntriesNavigator = createNativeStackNavigator()
+const EntriesStack = () => {
+    return (
+        <EntriesNavigator.Navigator initialRouteName="EntriesMenu">
+            <EntriesNavigator.Screen
+                name="EntriesMenu"
+                component={EntriesMenu}
+            />
+            <EntriesNavigator.Screen
+                options={{
+                    gesturesEnabled: true,
+                    stackPresentation: 'push',
+                }}
+                name="EntriesDetail"
+                component={EntriesDetail}
+            />
+        </EntriesNavigator.Navigator>
     )
 }
 
