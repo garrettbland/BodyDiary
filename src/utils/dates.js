@@ -8,7 +8,7 @@ export const getDatesArray = (startDate, endDate) => {
     let currentDate = moment(startDate)
     let stopDate = moment(endDate)
     while (currentDate <= stopDate) {
-        dateArray.push(moment(currentDate).format('LLLL'))
+        dateArray.push(moment(currentDate))
         currentDate = moment(currentDate).add(1, 'days')
     }
     return dateArray
