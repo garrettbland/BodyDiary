@@ -97,8 +97,14 @@ const EntriesStack = () => {
             />
             <EntriesNavigator.Screen
                 options={{
-                    gesturesEnabled: true,
+                    headerStyle: {
+                        backgroundColor: 'white',
+                    },
+                    headerHideShadow: true,
+                    gestureEnabled: true,
+                    headerBackTitle: 'Back',
                     stackPresentation: 'push',
+                    headerTitle: '',
                 }}
                 name="EntriesDetail"
                 component={EntriesDetail}
