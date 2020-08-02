@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import {
-    View,
-    Text,
-    Button,
-    FlatList,
-    TouchableOpacity,
-} from 'react-native'
-import { useSelector, useDispatch } from 'react-redux'
+import { View, Text, FlatList, TouchableOpacity } from 'react-native'
+import { useSelector } from 'react-redux'
 import tailwind from 'tailwind-rn'
 import firestore from '@react-native-firebase/firestore'
 import moment from 'moment-timezone'
@@ -26,6 +20,11 @@ const EntriesDetail = ({ route, navigation }) => {
     const entriesRef = firestore().collection('entries')
 
     useEffect(() => {
+        fetch_entries()
+    }, [])
+
+    const fetch_entries = async () => {
+        setIsLoading(true)
         entriesRef
             .where('user_id', '==', user_id)
             .where(
@@ -54,7 +53,7 @@ const EntriesDetail = ({ route, navigation }) => {
                 setEntries(items)
                 setIsLoading(false)
             })
-    }, [])
+    }
 
     return (
         <View>
@@ -66,7 +65,10 @@ const EntriesDetail = ({ route, navigation }) => {
             </Text>
             <View>
                 <Text>Entries</Text>
-                {isLoading ? null : (
+
+                {isLoading ? (
+                    <Text>Loading...</Text>
+                ) : (
                     <FlatList
                         data={entries}
                         keyExtractor={(item) => item.id}
@@ -74,6 +76,9 @@ const EntriesDetail = ({ route, navigation }) => {
                             <TouchableOpacity
                                 onPress={() =>
                                     navigation.navigate('EditEntry', {
+                                        fromDetail: true,
+                                        refetchEntries: () =>
+                                            fetch_entries(),
                                         entry: item,
                                     })
                                 }>

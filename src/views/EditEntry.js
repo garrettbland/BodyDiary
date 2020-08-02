@@ -86,6 +86,10 @@ const EditEntry = ({ route, navigation }) => {
                 },
             })
 
+            if (route.params.fromDetail === true) {
+                route.params.refetchEntries()
+            }
+
             /**
              * Pops navigation to close modal
              */
@@ -101,6 +105,10 @@ const EditEntry = ({ route, navigation }) => {
                     entry: route.params.entry,
                 },
             })
+
+            if (route.params.fromDetail === true) {
+                route.params.refetchEntries()
+            }
 
             navigation.pop()
         })

@@ -26,7 +26,7 @@ const EntriesMenu = ({ navigation }) => {
             <Text>Entries Menu</Text>
             <FlatList
                 data={dates}
-                keyExtractor={(item, index) => index}
+                keyExtractor={(item, index) => `${index}`}
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         onPress={() =>
@@ -44,14 +44,6 @@ const EntriesMenu = ({ navigation }) => {
                     </TouchableOpacity>
                 )}
             />
-            <View>
-                <Button
-                    title="Open Entries Detail"
-                    onPress={() =>
-                        navigation.navigate('EntriesDetail')
-                    }
-                />
-            </View>
         </View>
     )
 }
