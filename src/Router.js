@@ -38,7 +38,13 @@ const HomeNavigator = createNativeStackNavigator()
 const HomeStack = () => {
     return (
         <HomeNavigator.Navigator initialRouteName="Home">
-            <HomeNavigator.Screen name="Home" component={Home} />
+            <HomeNavigator.Screen
+                name="Home"
+                component={Home}
+                options={{
+                    headerShown: false,
+                }}
+            />
             <HomeNavigator.Screen
                 options={{
                     gesturesEnabled: true,

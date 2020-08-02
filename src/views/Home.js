@@ -5,6 +5,7 @@ import {
     Button,
     FlatList,
     TouchableOpacity,
+    ScrollView,
 } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import tailwind from 'tailwind-rn'
@@ -12,12 +13,14 @@ import firestore from '@react-native-firebase/firestore'
 import { SET_ENTRIES, SET_DATA_LOADED } from '../redux/constants'
 import moment from 'moment-timezone'
 import * as RNLocalize from 'react-native-localize'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 const Home = ({ navigation }) => {
     /**
      *  React-redux hooks
      */
     const dispatch = useDispatch()
+    const insets = useSafeAreaInsets()
     const hasDataLoaded = useSelector((state) => state.hasDataLoaded)
     const entries = useSelector((state) => state.entries)
     const user_id = useSelector((state) => state.user_id)
@@ -78,53 +81,82 @@ const Home = ({ navigation }) => {
     }, [])
 
     return (
-        <View>
-            <Text>Home View</Text>
-            <View>
-                <Text>All Entries</Text>
-                {hasDataLoaded && (
-                    <FlatList
-                        data={entries}
-                        keyExtractor={(item) => item.id}
-                        renderItem={({ item }) => (
+        <View style={tailwind('flex-1')}>
+            <ScrollView
+                style={{
+                    paddingTop: insets.top,
+                    ...tailwind('flex-1'),
+                }}>
+                <View style={tailwind('')}>
+                    <Text style={tailwind('text-4xl')}>
+                        All Entries
+                    </Text>
+                    <View>
+                        {entries.map((entry) => (
                             <TouchableOpacity
                                 onPress={() =>
                                     navigation.navigate('EditEntry', {
-                                        entry: item,
+                                        entry: entry,
                                     })
                                 }>
                                 <Text
                                     style={tailwind('text-blue-500')}>
-                                    {item.value} (
-                                    {item.type === 'food'
-                                        ? 'Food Item'
-                                        : 'Diary Item'}
+                                    {entry.value} (
+                                    {entry.type === 'food'
+                                        ? 'Food entry'
+                                        : 'Diary entry'}
                                     ) (
-                                    {moment(item.date)
+                                    {moment(entry.date)
                                         .tz(RNLocalize.getTimeZone())
                                         .format('LLLL')}
                                     )
                                 </Text>
                             </TouchableOpacity>
-                        )}
-                    />
-                )}
-            </View>
-            <View>
-                <Text>User Id: {JSON.stringify(user_id)}</Text>
-            </View>
-            <View>
-                <Button
-                    title="Open Modal"
-                    onPress={() => navigation.navigate('Choose')}
-                />
-            </View>
-            <View>
-                <Button
-                    title="Open Entries Menu"
-                    onPress={() => navigation.navigate('EntriesMenu')}
-                />
-            </View>
+                        ))}
+                    </View>
+                </View>
+            </ScrollView>
+
+            <TouchableOpacity
+                onPress={() => navigation.navigate('EntriesMenu')}
+                style={{
+                    marginBottom: insets.bottom,
+                    marginLeft: insets.bottom,
+                    shadowColor: '#000',
+                    shadowOffset: {
+                        width: 0,
+                        height: 4,
+                    },
+                    shadowOpacity: 0.3,
+                    shadowRadius: 4.65,
+
+                    elevation: 8,
+                    ...tailwind(
+                        'flex items-center justify-center absolute bottom-0 left-0 bg-orange-500 h-16 w-16 rounded-full'
+                    ),
+                }}>
+                <Text>=</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => navigation.navigate('Choose')}
+                style={{
+                    marginBottom: insets.bottom,
+                    marginRight: insets.bottom,
+                    shadowColor: '#000',
+                    shadowOffset: {
+                        width: 0,
+                        height: 4,
+                    },
+                    shadowOpacity: 0.3,
+                    shadowRadius: 4.65,
+
+                    elevation: 8,
+                    ...tailwind(
+                        'flex items-center justify-center absolute bottom-0 right-0 bg-orange-500 h-16 w-16 rounded-full'
+                    ),
+                }}>
+                <Text>+</Text>
+            </TouchableOpacity>
         </View>
     )
 }

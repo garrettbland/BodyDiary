@@ -6,6 +6,7 @@ import store from './redux/store'
 import { generateRandomId, getItem, setItem } from './utils/storage'
 import { SET_USER_ID } from './redux/constants'
 import firestore from '@react-native-firebase/firestore'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 /**
  * Key name's
@@ -96,7 +97,9 @@ const App = () => {
     } else {
         return (
             <Provider store={store}>
-                <Router />
+                <SafeAreaProvider>
+                    <Router />
+                </SafeAreaProvider>
             </Provider>
         )
     }
