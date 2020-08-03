@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, Platform } from 'react-native'
+import { View, Text, Platform, LogBox } from 'react-native'
 import Router from './Router'
 import { Provider } from 'react-redux'
 import store from './redux/store'
-import { generateRandomId, getItem, setItem } from './utils/storage'
+import { getItem, setItem } from './utils/storage'
 import { SET_USER_ID } from './redux/constants'
 import firestore from '@react-native-firebase/firestore'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
@@ -45,6 +45,13 @@ const App = () => {
     }
 
     useEffect(() => {
+        /**
+         * Ignore warnings about passing in moment data through
+         */
+        LogBox.ignoreLogs([
+            'Non-serializable values were found in the navigation state',
+        ])
+
         /**
          * First, check to see if user id key exists in storage
          */

@@ -2,18 +2,17 @@ import React, { useEffect } from 'react'
 import {
     View,
     Text,
-    Button,
-    FlatList,
     TouchableOpacity,
     ScrollView,
 } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import tailwind from 'tailwind-rn'
+import tailwind, { getColor } from 'tailwind-rn'
 import firestore from '@react-native-firebase/firestore'
 import { SET_ENTRIES, SET_DATA_LOADED } from '../redux/constants'
 import moment from 'moment-timezone'
 import * as RNLocalize from 'react-native-localize'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import Icon from 'react-native-vector-icons/Feather'
 
 const Home = ({ navigation }) => {
     /**
@@ -87,32 +86,101 @@ const Home = ({ navigation }) => {
                     paddingTop: insets.top,
                     ...tailwind('flex-1'),
                 }}>
-                <View style={tailwind('')}>
-                    <Text style={tailwind('text-4xl')}>
-                        All Entries
-                    </Text>
+                <View>
+                    <View style={tailwind('px-4 mb-12 mt-4')}>
+                        <Text
+                            style={tailwind(
+                                'font-bold text-gray-600 text-xl'
+                            )}>
+                            {moment().format('dddd ll')}
+                        </Text>
+                        <Text style={tailwind('text-5xl font-black')}>
+                            Body Diary
+                        </Text>
+                    </View>
+                    <View style={tailwind('mb-24')}>
+                        <Text
+                            style={{
+                                letterSpacing: 1,
+                                ...tailwind(
+                                    'text-gray-600 px-4 uppercase mb-2'
+                                ),
+                            }}>
+                            🥗 Food Entries
+                        </Text>
+                        <View
+                            style={tailwind(
+                                'h-px bg-gray-300 w-full'
+                            )}
+                        />
+                        {entries.map((entry, index) => {
+                            if (entry.type === 'food') {
+                                return (
+                                    <TouchableOpacity
+                                        key={index}
+                                        style={tailwind(
+                                            'border-b border-gray-300 py-2'
+                                        )}
+                                        onPress={() =>
+                                            navigation.navigate(
+                                                'EditEntry',
+                                                {
+                                                    entry: entry,
+                                                }
+                                            )
+                                        }>
+                                        <Text
+                                            style={tailwind(
+                                                'px-4 py-2 text-lg'
+                                            )}>
+                                            {entry.value}
+                                        </Text>
+                                    </TouchableOpacity>
+                                )
+                            }
+                        })}
+                    </View>
                     <View>
-                        {entries.map((entry) => (
-                            <TouchableOpacity
-                                onPress={() =>
-                                    navigation.navigate('EditEntry', {
-                                        entry: entry,
-                                    })
-                                }>
-                                <Text
-                                    style={tailwind('text-blue-500')}>
-                                    {entry.value} (
-                                    {entry.type === 'food'
-                                        ? 'Food entry'
-                                        : 'Diary entry'}
-                                    ) (
-                                    {moment(entry.date)
-                                        .tz(RNLocalize.getTimeZone())
-                                        .format('LLLL')}
-                                    )
-                                </Text>
-                            </TouchableOpacity>
-                        ))}
+                        <Text
+                            style={{
+                                letterSpacing: 1,
+                                ...tailwind(
+                                    'text-gray-600 px-4 uppercase mb-2'
+                                ),
+                            }}>
+                            📝 Diary Entries
+                        </Text>
+                        <View
+                            style={tailwind(
+                                'h-px bg-gray-300 w-full'
+                            )}
+                        />
+                        {entries.map((entry, index) => {
+                            if (entry.type === 'diary') {
+                                return (
+                                    <TouchableOpacity
+                                        key={index}
+                                        style={tailwind(
+                                            'border-b border-gray-300 py-2'
+                                        )}
+                                        onPress={() =>
+                                            navigation.navigate(
+                                                'EditEntry',
+                                                {
+                                                    entry: entry,
+                                                }
+                                            )
+                                        }>
+                                        <Text
+                                            style={tailwind(
+                                                'px-4 py-2 text-lg'
+                                            )}>
+                                            {entry.value}
+                                        </Text>
+                                    </TouchableOpacity>
+                                )
+                            }
+                        })}
                     </View>
                 </View>
             </ScrollView>
@@ -122,40 +190,48 @@ const Home = ({ navigation }) => {
                 style={{
                     marginBottom: insets.bottom,
                     marginLeft: insets.bottom,
-                    shadowColor: '#000',
+                    shadowColor: getColor('indigo-900'),
                     shadowOffset: {
                         width: 0,
-                        height: 4,
+                        height: 0,
                     },
                     shadowOpacity: 0.3,
-                    shadowRadius: 4.65,
-
-                    elevation: 8,
+                    shadowRadius: 3.65,
+                    elevation: 16,
+                    borderRadius: 21,
                     ...tailwind(
-                        'flex items-center justify-center absolute bottom-0 left-0 bg-orange-500 h-16 w-16 rounded-full'
+                        'flex items-center justify-center absolute bottom-0 left-0 bg-indigo-500 h-16 w-16'
                     ),
                 }}>
-                <Text>=</Text>
+                <Icon
+                    name="menu"
+                    size={30}
+                    style={tailwind('text-indigo-100')}
+                />
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => navigation.navigate('Choose')}
                 style={{
                     marginBottom: insets.bottom,
                     marginRight: insets.bottom,
-                    shadowColor: '#000',
+                    shadowColor: getColor('green-500'),
                     shadowOffset: {
                         width: 0,
                         height: 4,
                     },
                     shadowOpacity: 0.3,
-                    shadowRadius: 4.65,
-
-                    elevation: 8,
+                    shadowRadius: 3.65,
+                    elevation: 16,
+                    borderRadius: 21,
                     ...tailwind(
-                        'flex items-center justify-center absolute bottom-0 right-0 bg-orange-500 h-16 w-16 rounded-full'
+                        'flex items-center justify-center absolute bottom-0 right-0 bg-green-500 h-16 w-16'
                     ),
                 }}>
-                <Text>+</Text>
+                <Icon
+                    name="plus"
+                    size={32}
+                    style={tailwind('text-white')}
+                />
             </TouchableOpacity>
         </View>
     )
