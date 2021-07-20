@@ -19,7 +19,7 @@
     "moment": "^2.27.0",
     "moment-timezone": "^0.5.31",
     "react": "16.13.1",
-    "react-native": "0.63.2",
+    "react-native": "0.64.1",
     "react-native-gesture-handler": "^1.7.0",
     "react-native-localize": "^1.4.0",
     "react-native-reanimated": "^1.10.1",
