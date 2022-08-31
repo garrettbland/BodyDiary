@@ -17,7 +17,7 @@
     "@react-navigation/native": "^5.7.1",
     "@react-navigation/stack": "^5.7.1",
     "moment": "^2.27.0",
-    "moment-timezone": "^0.5.31",
+    "moment-timezone": "^0.5.35",
     "react": "16.13.1",
     "react-native": "0.63.2",
     "react-native-gesture-handler": "^1.7.0",
